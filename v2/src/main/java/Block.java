@@ -41,4 +41,12 @@ public class Block {
         double ms = ((double)end-start) / 1000000;
         System.out.printf("Block Mined in %.2fms with mining hash %s%n", ms, this.hash);
     }
+
+    public String getPrevHash() {
+        return previousHash;
+    }
+
+    public String getHash() {
+        return hash;
+    }
 }
