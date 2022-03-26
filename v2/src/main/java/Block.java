@@ -11,6 +11,7 @@ public class Block {
     String previousHash;
     String hash;
     int nonce;
+    int BPM;
 
     //how a winning validator is chosen
     public static class pickWinner implements Runnable {
