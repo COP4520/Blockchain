@@ -24,6 +24,27 @@ public class Blockchain {
         return chain.get(this.chain.size() - 1);
     }
 
+    public Block addAndValidateBlock(Block curr) {
+        // check prev hash, add if it is valid
+        Block temp = curr;
+        boolean found = false;
+
+        for(int i = chain.size()-1; i >= 0; i--) {
+            Block b = chain.get(i);
+
+            if(b.getHash().equals(temp.getPrevHash())) {
+                temp = b;
+                found = true;
+            }
+        }
+
+        if(found)
+            this.chain.add(curr);
+        else
+            throw new RuntimeException("Block is invalid.");
+
+    }
+
     public void minePendingTransactions(String rewardAddress) {
         Transaction reward = new Transaction(null, rewardAddress, this.miningReward);
         this.pendingTransactions.add(reward);
