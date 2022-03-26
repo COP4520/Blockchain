@@ -42,7 +42,6 @@ public class Blockchain {
             this.chain.add(curr);
         else
             throw new RuntimeException("Block is invalid.");
-
     }
 
     public void minePendingTransactions(String rewardAddress) {
@@ -58,9 +57,12 @@ public class Blockchain {
 
     public void addTransaction(Transaction transaction) {
         // TODO ensure transaction is valid and the balance of wallet before accepting transaction
-
-        this.pendingTransactions.add(transaction);
-        System.out.println("Added transaction to pending transactions.");
+        if(transaction.verifySignature() && transaction.isValid()) {
+            this.pendingTransactions.add(transaction);
+            System.out.println("Added transaction to pending transactions.");
+        }
+        else
+            System.out.println("Failed to add transaction.");
     }
 
     public boolean isChainValid() {

@@ -15,6 +15,13 @@ public class Transaction {
         this.signature = generateSignature();
     }
 
+    public boolean isValid(int balance) {
+        if(balance == amount && verifiySignature())
+            return true;
+        else
+            return false;
+    }
+
     public void generateSignature() {
         String data = StringUtil.getStringFromKey(fromAddress) + StringUtil.getStringFromKey(toAddress) + Float.toString(amount)	;
         signature = StringUtil.applyECDSASig(timestamp, data);
@@ -27,5 +34,5 @@ public class Transaction {
         return StringUtil.verifyECDSASig(fromAddress, data, signature);
     }
 
-    // Done (but needs to be looked over): Add transaction signing with public/private keys
+    // TODO: Done (but needs to be looked over): Add transaction signing with public/private keys
 }

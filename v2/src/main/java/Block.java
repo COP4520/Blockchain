@@ -12,7 +12,7 @@ public class Block {
     String hash;
     int nonce;
 
-    //how a winning validator is chosen
+    // how a winning validator is chosen
     public static class pickWinner implements Runnable {
 
         @Override
@@ -28,7 +28,6 @@ public class Block {
             }
         }
     }
-
 
     public Block(ArrayList<Transaction> transactions, Timestamp timestamp){
         this(transactions, timestamp, "");
