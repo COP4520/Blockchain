@@ -7,10 +7,12 @@ public class Main {
 //        Block block = new Block(new ArrayList<>(), new Timestamp(System.currentTimeMillis()));
 //        block.mineBlock(5);
 
+        Server server = new Server(9000);
         Blockchain blockchain = new Blockchain();
         blockchain.addTransaction(new Transaction("abc123", "def456", 10));
         blockchain.addTransaction(new Transaction("abc123", "def456", 20));
         blockchain.addTransaction(new Transaction("abc123", "def456", 30));
         blockchain.minePendingTransactions("abc123");
+
     }
 }
