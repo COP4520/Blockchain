@@ -12,6 +12,24 @@ public class Block {
     String hash;
     int nonce;
 
+    //how a winning validator is chosen
+    public static class pickWinner implements Runnable {
+
+        @Override
+        public synchronized void run() {
+            public void lock() {
+                Thread current = Thread.currentThread();
+                while (!cas.compareAndSet(null, current)) {
+                }
+            }
+            public void unlock() {
+                Thread current = Thread.currentThread();
+                cas.compareAndSet(current, null);
+            }
+        }
+    }
+
+
     public Block(ArrayList<Transaction> transactions, Timestamp timestamp){
         this(transactions, timestamp, "");
     }
