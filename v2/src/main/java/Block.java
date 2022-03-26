@@ -14,6 +14,7 @@ public class Block {
     int BPM;
 
     //how a winning validator is chosen
+    // WORK IN PROGRESS
     public static class pickWinner implements Runnable {
 
         @Override
