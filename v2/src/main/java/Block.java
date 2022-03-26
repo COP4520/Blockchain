@@ -28,36 +28,24 @@ public class Block {
             }
         }
     }
-// checking validity of the blockchain
-    public static Boolean isChainValid()
-    {
+// checking validity of the block
+    public static Boolean isBlockValid() {
         Block currentBlock;
         Block previousBlock;
 
-        // Iterating through the blocks
-        for (int i = 1;
-             i < blockchain.size();
-             i++) {
+        if (previousBlock.Index+1 != currentBlock.Index){
+        return false
+    }
 
-            // Storing the curr and prev block
-            currentBlock = blockchain.get(i);
-            previousBlock = blockchain.get(i - 1);
+        if (previousBlock.Hash != currentBlock.previousHash) {
+        return false
+    }
 
-            // Checking if the current hash
-            // is equal to the
-            // calculated hash or not
-            if (!currentBlock.hash.equals( currentBlock.calculateHash())) {
-                System.out.println("Hashes not equal");
-                return false;
-            }
+        if (calculateBlockHash(newBlock) != currentBlock.Hash) {
+        return false
+    }
+        return true
 
-
-            if (!previousBlock.hash.equals(currentBlock.previousHash)) {
-                System.out.println("Prev Hashes not equal");
-                return false;
-            }
-        }
-        return true;
     }
 
     public Block(ArrayList<Transaction> transactions, Timestamp timestamp){
