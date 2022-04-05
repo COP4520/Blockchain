@@ -11,8 +11,10 @@ public class Block {
     String previousHash;
     String hash;
     int nonce;
+    int BPM;
 
-    // how a winning validator is chosen
+    //how a winning validator is chosen
+    // WORK IN PROGRESS
     public static class pickWinner implements Runnable {
 
         @Override
@@ -27,6 +29,25 @@ public class Block {
                 cas.compareAndSet(current, null);
             }
         }
+    }
+// checking validity of the block
+    public static Boolean isBlockValid() {
+        Block currentBlock;
+        Block previousBlock;
+
+        if (previousBlock.Index+1 != currentBlock.Index){
+        return false
+    }
+
+        if (previousBlock.Hash != currentBlock.previousHash) {
+        return false
+    }
+
+        if (calculateBlockHash(newBlock) != currentBlock.Hash) {
+        return false
+    }
+        return true
+
     }
 
     public Block(ArrayList<Transaction> transactions, Timestamp timestamp){
