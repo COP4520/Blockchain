@@ -1,13 +1,7 @@
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.concurrent.*;
-import java.net.*;
 import java.io.*;
 
 public class Main {
-    static final int BLOCK_GENERATION_INTERVAL = 10;
-    static final int DIFFICULTY_ADJUSTMENT_INTERVAL = 10;
 
     public static BlockingQueue<Blockchain> bcServer;
 
