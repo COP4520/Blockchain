@@ -6,14 +6,18 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class Block {
+    int index;
     ArrayList<Transaction> transactions;
     Timestamp timestamp;
     String previousHash;
     String hash;
+    String data;
+    int difficulty;
     int nonce;
-    int BPM;
+    int mintBalance;
+    String mintAddy;
 
-    //how a winning validator is chosen
+    /*//how a winning validator is chosen
     // WORK IN PROGRESS
     public static class pickWinner implements Runnable {
 
@@ -29,52 +33,63 @@ public class Block {
                 cas.compareAndSet(current, null);
             }
         }
-    }
+    }*/
 // checking validity of the block
-    public static Boolean isBlockValid() {
-        Block currentBlock;
-        Block previousBlock;
+    public Boolean isBlockValid() {
+        Block currentBlock = this;
 
-        if (previousBlock.Index+1 != currentBlock.Index){
-        return false
+        if (!previousHash.equals(currentBlock.previousHash)) {
+            return false;
     }
 
-        if (previousBlock.Hash != currentBlock.previousHash) {
-        return false
+        return currentBlock.calculateHash().equals(currentBlock.hash);
     }
 
-        if (calculateBlockHash(newBlock) != currentBlock.Hash) {
-        return false
+    public Block(ArrayList<Transaction> transactions, int ind, Timestamp timestamp, String info, int bal, int diff, String addy){
+        transactions = transactions;
+        timestamp = timestamp;
+        index = ind;
+        data = info;
+        nonce = 0;
+        this.hash = calculateHash();
+        mintBalance = bal;
+        difficulty = diff;
+        mintAddy = addy;
     }
-        return true
 
-    }
-
-    public Block(ArrayList<Transaction> transactions, Timestamp timestamp){
-        this(transactions, timestamp, "");
-    }
-
-    public Block(ArrayList<Transaction> transactions, Timestamp timestamp, String previousHash){
+    public Block(ArrayList<Transaction> transactions, int ind, Timestamp timestamp, String previousHash, String info, int bal, int diff, String addy){
         this.transactions = transactions;
         this.timestamp = timestamp;
         this.previousHash = previousHash;
         nonce = 0;
         this.hash = calculateHash();
+        data = info;
+        mintBalance = bal;
+        difficulty = diff;
+        mintAddy = addy;
     }
 
     public String calculateHash(){
         String json = new JSONArray(this.transactions).toString();
         return Hashing.sha256()
-                .hashString(this.previousHash + this.timestamp + json + this.nonce, StandardCharsets.UTF_8)
+                .hashString(this.previousHash + this.timestamp + this.difficulty + json, StandardCharsets.UTF_8)
                 .toString();
     }
 
-    public void mineBlock(int difficulty){
+    public Block generateBlock(Block prevBlock, String info, String addy, int diff, int mintBal) {
+        java.util.Date date = new java.util.Date();
+
+        return new Block(new ArrayList<>(), prevBlock.index+1, new Timestamp(date.getTime()), prevBlock.previousHash, info, mintBal, diff, addy);
+    }
+
+    public void mineBlock(int difficulty) {
         long start = System.nanoTime();
+
         while (!this.hash.substring(0, difficulty).equals(StringUtils.leftPad("", difficulty, "0"))) {
             this.nonce++;
             this.hash = this.calculateHash();
         }
+
         long end = System.nanoTime();
         double ms = ((double)end-start) / 1000000;
         System.out.printf("Block Mined in %.2fms with mining hash %s%n", ms, this.hash);

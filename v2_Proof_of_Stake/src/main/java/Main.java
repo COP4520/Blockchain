@@ -5,27 +5,29 @@ import java.util.concurrent.*;
 import java.net.*;
 import java.io.*;
 
-
 public class Main {
+    static final int BLOCK_GENERATION_INTERVAL = 10;
+    static final int DIFFICULTY_ADJUSTMENT_INTERVAL = 10;
 
     public static BlockingQueue<Blockchain> bcServer;
+
     public static void main(String[] args) {
 //        Block block = new Block(new ArrayList<>(), new Timestamp(System.currentTimeMillis()));
 //        block.mineBlock(5);
-
         
         bcServer = new LinkedBlockingQueue<Blockchain>();
 
         // NOTE: might be better to move server code to Main.java
-        Server server = new Server(9000);
+      //  Server server = new Server(9000);
 
-        handleConn(server);
+      //  handleConn(server);
 
         Blockchain blockchain = new Blockchain();
         blockchain.addTransaction(new Transaction("abc123", "def456", 10));
         blockchain.addTransaction(new Transaction("abc123", "def456", 20));
         blockchain.addTransaction(new Transaction("abc123", "def456", 30));
         blockchain.minePendingTransactions("abc123");
+        System.out.print(blockchain.chain);
 
     }
 

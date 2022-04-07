@@ -1,38 +1,38 @@
 import java.sql.Timestamp;
+import java.security.*;
 
 public class Transaction {
+    public String transactionID;
     String fromAddress;
     String toAddress;
     int amount;
     Timestamp timestamp;
-    String signature;
+    byte[] signature;
 
     public Transaction(String fromAddress, String toAddress, int amount) {
         this.fromAddress = fromAddress;
         this.toAddress = toAddress;
         this.amount = amount;
         this.timestamp = new Timestamp(System.currentTimeMillis());
-        this.signature = generateSignature();
+        //generateSignature();
     }
-
+/* //TODO: these need to be fixed. Look into Private and PublicKey
     public boolean isValid(int balance) {
-        if(balance == amount && verifiySignature())
-            return true;
-        else
-            return false;
-    }
+        return balance == amount && verifySignature();
+    }*/
 
+/*
     public void generateSignature() {
         String data = StringUtil.getStringFromKey(fromAddress) + StringUtil.getStringFromKey(toAddress) + Float.toString(amount)	;
-        signature = StringUtil.applyECDSASig(timestamp, data);
+        signature = StringUtil.applyECDSASig(toAddress, data);
     }
 
     // to verify the data we signed hasnt been tampered with
-    public boolean verifiySignature() {
+    public boolean verifySignature() {
         String data = StringUtil.getStringFromKey(fromAddress) + StringUtil.getStringFromKey(toAddress) + Float.toString(amount)	;
 
         return StringUtil.verifyECDSASig(fromAddress, data, signature);
-    }
+    } */
 
-    // TODO: Done (but needs to be looked over): Add transaction signing with public/private keys
+    // TODO: finished adding transaction signing with public/private keys, just needs to be reviewed
 }
