@@ -30,17 +30,6 @@ public class Main {
 //        System.out.println(priv);
 //        byte[] output = SignatureUtil.sign(priv, "test");
 //        System.out.println(Base64.getEncoder().encodeToString(output));
-//
-//        boolean isValid = SignatureUtil.verify(SignatureUtil.toBase64String(keyPair.getPublic().getEncoded()), "test", SignatureUtil.toBase64String(output));
-//        System.out.println(isValid);
-
-//        Wallet w = new Wallet(100);
-//
-//        Blockchain blockchain = new Blockchain();
-//        Transaction t = new Transaction(w.getPublicKey(), "def456", 10);
-//        Transaction.signTransaction(t, w);
-//        t.amount = 100; // malicious change
-//        System.out.println(t.isValid());
 
 
     }
