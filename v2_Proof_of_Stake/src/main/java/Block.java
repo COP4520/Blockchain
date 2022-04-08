@@ -11,6 +11,9 @@ public class Block {
     Timestamp timestamp;
     String previousHash;
     String hash;
+
+    String validatorAddress;
+    int bpm;
     int nonce;
 
     /*//how a winning validator is chosen
@@ -82,4 +85,12 @@ public class Block {
     }
 
     public int getIndex() { return index; }
+
+    public String getValidatorAddress() {
+        return validatorAddress;
+    }
+
+    public void setValidatorAddress(String validatorAddress) {
+        this.validatorAddress = validatorAddress;
+    }
 }

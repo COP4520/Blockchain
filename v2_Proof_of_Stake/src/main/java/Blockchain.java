@@ -4,12 +4,16 @@ import org.json.JSONArray;
 import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Blockchain {
-    static final int BLOCK_GENERATION_INTERVAL = 10;
+    private static final Object mutex = new Object();
 
+    private Random rand = new Random();
     ArrayList<Block> chain;
     ArrayList<Transaction> pendingTransactions;
+    ArrayList<Block> tempBlocks;
+    public ArrayList<Staker> validators;
     int difficulty;
     int miningReward;
 
@@ -17,6 +21,8 @@ public class Blockchain {
         this.chain = new ArrayList<>();
         this.chain.add(this.createGenesisBlock());
         this.pendingTransactions = new ArrayList<>();
+        this.tempBlocks = new ArrayList<>();
+        this.validators = new ArrayList<>();
         this.difficulty = 3;
         this.miningReward = 100;
     }
@@ -25,17 +31,73 @@ public class Blockchain {
         return new Block(0, new ArrayList<>(), new Timestamp(System.currentTimeMillis()));
     }
 
-    public Block generateNextBlock(String info)  {
-        Block prevBlock = getLatestBlock();
-        java.util.Date date = new java.util.Date();
-        Timestamp nextTime = new Timestamp(date.getTime());
+    public Block generateNextBlock(Staker validator)  {
+        if(!this.isChainValid()){
+            validator.stake -= 10; // tampering detected, staker loses stake
+            return null;
+        }
 
-        return new Block(prevBlock.index + 1, new ArrayList<>(),nextTime, prevBlock.hash);
+        Block prevBlock = getLatestBlock();
+
+        Block block = new Block(prevBlock.index + 1, new ArrayList<>(),new Timestamp(System.currentTimeMillis()), prevBlock.hash);
+        block.setValidatorAddress(validator.getAddress());
+
+        if(!this.isChainValid()){
+            validator.stake -= 10; // tampering detected, staker loses stake
+            return null;
+        }
+
+        this.chain.add(block);
+        return block;
     }
 
     public Block getLatestBlock() {
         // Blockchain guaranteed to have a minimum size of 1 containing the genesis block
         return chain.get(this.chain.size() - 1);
+    }
+
+    public void addValidator(String address, int stake){
+        this.validators.add(new Staker(address, stake));
+    }
+
+    public void proofOfStake(){
+        for(Block b : tempBlocks) {
+            pickWinner(b);
+        }
+        tempBlocks.clear();
+    }
+
+    private Staker pickWinner(Block block){
+        ArrayList<Staker> lotteryPool = new ArrayList<>();
+        int totalStake = 0;
+
+        for(Staker v : this.validators){
+            if(v.stake >= 10){
+                lotteryPool.add(v);
+                totalStake += v.getStake();
+            }
+        }
+
+        if(lotteryPool.isEmpty()){
+            System.out.println("No validators in the lottery pool!");
+            return null;
+        }
+
+        int lotteryRoll = rand.nextInt(totalStake);
+        int selector = 0;
+
+        for(Staker v : this.validators){
+            if(v.stake >= 10){
+                selector += v.getStake();
+                if(lotteryRoll < selector){
+                    return v;
+                }
+            }
+        }
+
+        System.out.println("Failed to select a winner for validation lottery!");
+        return null;
+
     }
 
     public Block addAndValidateBlock(Block curr) {
