@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 public class Blockchain {
     static final int BLOCK_GENERATION_INTERVAL = 10;
-    static final int DIFFICULTY_ADJUSTMENT_INTERVAL = 10;
 
     ArrayList<Block> chain;
     ArrayList<Transaction> pendingTransactions;
@@ -23,7 +22,7 @@ public class Blockchain {
     }
 
     public Block createGenesisBlock() {
-        return new Block(new ArrayList<>(), 0, new Timestamp(System.currentTimeMillis()), "0", 10, 100, "1");
+        return new Block(0, new ArrayList<>(), new Timestamp(System.currentTimeMillis()));
     }
 
     public Block generateNextBlock(String info)  {
@@ -31,7 +30,7 @@ public class Blockchain {
         java.util.Date date = new java.util.Date();
         Timestamp nextTime = new Timestamp(date.getTime());
 
-        return new Block(new ArrayList<>(), prevBlock.index+1, nextTime, prevBlock.hash, info, 100, 10, "Addy"+1);
+        return new Block(prevBlock.index + 1, new ArrayList<>(),nextTime, prevBlock.hash);
     }
 
     public Block getLatestBlock() {
@@ -81,25 +80,10 @@ public class Blockchain {
         }
     } */
 
-    public int getDifficulty() {
-        Block curr = getLatestBlock();
-
-        if(curr.index % DIFFICULTY_ADJUSTMENT_INTERVAL == 0 && curr.index != 0) {
-            return getAdjustedDifficulty(); }
-        else
-            return curr.difficulty;
-    }
-
-    public int getAdjustedDifficulty() {
-        // TODO: need to finish this
-
-        return 0;
-    }
-
     public void minePendingTransactions(String rewardAddress) {
         Transaction reward = new Transaction(null, rewardAddress, this.miningReward);
         this.pendingTransactions.add(reward);
-// TODO: UPDATE FOR POS
+        // TODO: UPDATE FOR POS
         //Block block = new Block(this.pendingTransactions, new Timestamp(System.currentTimeMillis()), this.getLatestBlock().hash);
       //  block.mineBlock(this.difficulty);
 
@@ -109,12 +93,12 @@ public class Blockchain {
 
     public void addTransaction(Transaction transaction) {
         // TODO ensure transaction is valid and the balance of wallet before accepting transaction
-     //   if(transaction.verifySignature() && transaction.isValid(transaction.amount)) {
+//      if(transaction.verifySignature() && transaction.isValid(transaction.amount)) {
             this.pendingTransactions.add(transaction);
-           // System.out.println("Added transaction to pending transactions.");
-      //  }
-       // else
-       //     System.out.println("Failed to add transaction.");
+            System.out.println("Added transaction to pending transactions.");
+//      }
+//       else
+           System.out.println("Failed to add transaction.");
     }
 
     public boolean isChainValid() {

@@ -11,11 +11,7 @@ public class Block {
     Timestamp timestamp;
     String previousHash;
     String hash;
-    String data;
-    int difficulty;
     int nonce;
-    int mintBalance;
-    String mintAddy;
 
     /*//how a winning validator is chosen
     // WORK IN PROGRESS
@@ -34,52 +30,34 @@ public class Block {
             }
         }
     }*/
-// checking validity of the block
+
+    // checking validity of the block
     public Boolean isBlockValid() {
-        Block currentBlock = this;
-
-        if (!previousHash.equals(currentBlock.previousHash)) {
-            return false;
+        return this.calculateHash().equals(this.hash);
     }
 
-        return currentBlock.calculateHash().equals(currentBlock.hash);
-    }
-
-    public Block(ArrayList<Transaction> transactions, int ind, Timestamp timestamp, String info, int bal, int diff, String addy){
-        transactions = transactions;
-        timestamp = timestamp;
-        index = ind;
-        data = info;
-        nonce = 0;
+    public Block(int index, ArrayList<Transaction> transactions, Timestamp timestamp){
+        this.index = index;
+        this.transactions = transactions;
+        this.timestamp = timestamp;
+        this.nonce = 0;
         this.hash = calculateHash();
-        mintBalance = bal;
-        difficulty = diff;
-        mintAddy = addy;
     }
 
-    public Block(ArrayList<Transaction> transactions, int ind, Timestamp timestamp, String previousHash, String info, int bal, int diff, String addy){
+    public Block(int index, ArrayList<Transaction> transactions,Timestamp timestamp, String previousHash){
+        this.index = index;
         this.transactions = transactions;
         this.timestamp = timestamp;
         this.previousHash = previousHash;
         nonce = 0;
         this.hash = calculateHash();
-        data = info;
-        mintBalance = bal;
-        difficulty = diff;
-        mintAddy = addy;
     }
 
     public String calculateHash(){
         String json = new JSONArray(this.transactions).toString();
         return Hashing.sha256()
-                .hashString(this.previousHash + this.timestamp + this.difficulty + json, StandardCharsets.UTF_8)
+                .hashString(this.previousHash + this.timestamp + json, StandardCharsets.UTF_8)
                 .toString();
-    }
-
-    public Block generateBlock(Block prevBlock, String info, String addy, int diff, int mintBal) {
-        java.util.Date date = new java.util.Date();
-
-        return new Block(new ArrayList<>(), prevBlock.index+1, new Timestamp(date.getTime()), prevBlock.previousHash, info, mintBal, diff, addy);
     }
 
     public void mineBlock(int difficulty) {
