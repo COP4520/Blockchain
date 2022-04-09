@@ -1,11 +1,12 @@
 import java.security.KeyPair;
-import java.util.Base64;
+import java.util.*;
 import java.util.concurrent.*;
 import java.io.*;
 
 public class Main {
 
-    public static BlockingQueue<Blockchain> bcServer;
+    public List<Client> threads;
+    public Blockchain blockchain;
 
     public static void main(String[] args) {
 //        Block block = new Block(new ArrayList<>(), new Timestamp(System.currentTimeMillis()));
@@ -18,7 +19,9 @@ public class Main {
 
       //  handleConn(server);
 
-//        Blockchain blockchain = new Blockchain();
+       Main TCPServer = new Main();
+       TCPServer.threads = new ArrayList<>();
+       TCPServer.blockchain = new Blockchain();
 //        blockchain.addTransaction(new Transaction("abc123", "def456", 10));
 //        blockchain.addTransaction(new Transaction("abc123", "def456", 20));
 //        blockchain.addTransaction(new Transaction("abc123", "def456", 30));
@@ -31,9 +34,18 @@ public class Main {
 //        byte[] output = SignatureUtil.sign(priv, "test");
 //        System.out.println(Base64.getEncoder().encodeToString(output));
 
+        for(int i=0; i<10; i++) {
+            Client th = new Client(TCPServer, Integer.toString(i));
+            TCPServer.threads.add(th);
+        }
+
+        for(Client th: TCPServer.threads) {
+            th.start();
+        }
 
     }
 
+    // FIXME: To be changed/removed
     private static void handleConn(Server s) {
 
         String line = "";
@@ -64,7 +76,7 @@ public class Main {
                     String to = data[1];
                     String amount = data[2];
 
-                    // TODO: Create a new block, etc.
+                    // TODO: Start a new thread: create a new block, etc.
                     System.out.println(line);
 
                     // TODO: Add new blockchain to BlockingQueue

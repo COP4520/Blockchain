@@ -5,6 +5,7 @@ import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.*;
 
 public class Blockchain {
     private static final Object mutex = new Object();
@@ -13,7 +14,7 @@ public class Blockchain {
     ArrayList<Block> chain;
     ArrayList<Transaction> pendingTransactions;
     ArrayList<Block> tempBlocks;
-    public ArrayList<Staker> validators;
+    public BlockingQueue<Staker> validators;
     int difficulty;
     int miningReward;
 
@@ -22,7 +23,7 @@ public class Blockchain {
         this.chain.add(this.createGenesisBlock());
         this.pendingTransactions = new ArrayList<>();
         this.tempBlocks = new ArrayList<>();
-        this.validators = new ArrayList<>();
+        this.validators = new LinkedBlockingQueue<>();
         this.difficulty = 3;
         this.miningReward = 100;
     }

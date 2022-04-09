@@ -1,9 +1,7 @@
-import org.checkerframework.checker.units.qual.A;
-
 import java.net.*;
 import java.io.*;
-import java.util.ArrayList;
 
+// FIXME: To be changed/removed
 public class Server {
 
     //initialize socket and input stream
