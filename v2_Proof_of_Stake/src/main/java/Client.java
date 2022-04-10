@@ -1,33 +1,62 @@
+import java.net.*;
+import java.util.*;
+import java.io.*;
+
+// Each client is represented by a thread
 public class Client extends Thread{
 
-    public Main TCPServer;
+    // initialize socket and input output streams
+    private Socket socket            = null;
+    private DataInputStream  input   = null;
+    private DataOutputStream out     = null;
+
     public String address;
+    public int port;
     
-    public Client(Main TCPServer, String address) {
-        this.TCPServer = TCPServer;
+    
+    public Client(String address, int port) {
+        
         this.address = address;
+        this.port = port;
     }
 
     @Override
     public void run() {
 
-        // FIXME: Proper terminate condition
-        while(true) {
+        try{
 
-            try{
+            Thread.sleep(1);
+        }
+        catch(Exception e){
+            System.out.println(e);
+        }
 
-                Thread.sleep(1);
-            }
-            catch(Exception e){
-                // System.out.println(e);
-                break;
-            }
+        // establish a connection
+        try
+        {
+            socket = new Socket(address, port);
+            System.out.println("Client " + address + " connected");
+ 
+            // takes input from terminal
+            // input  = new DataInputStream(System.in);
 
             // FIXME: Stake range to be changed
             int stake = (int)(Math.random()*10);
-
-            TCPServer.blockchain.addValidator(address, stake);
+ 
+            // sends output to the socket
+            out = new DataOutputStream(socket.getOutputStream());
+            out.writeUTF(address + " " + Integer.toString(stake));
+            out.writeUTF("Over");
 
         }
+        catch(UnknownHostException u)
+        {
+            System.out.println(u);
+        }
+        catch(IOException i)
+        {
+            System.out.println(i);
+        }
+
     }
 }
