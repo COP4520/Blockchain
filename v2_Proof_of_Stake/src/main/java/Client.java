@@ -23,40 +23,51 @@ public class Client extends Thread{
     @Override
     public void run() {
 
-        try{
+        boolean connected = false;
+        while(!connected) {
 
-            Thread.sleep(1);
-        }
-        catch(Exception e){
-            System.out.println(e);
-        }
+            try{
 
-        // establish a connection
-        try
-        {
-            socket = new Socket(address, port);
-            System.out.println("Client " + address + " connected");
- 
-            // takes input from terminal
-            // input  = new DataInputStream(System.in);
+                Thread.sleep(1000);
+            }
+            catch(Exception e){
+                System.out.println(e);
+            }
 
-            // FIXME: Stake range to be changed
-            int stake = (int)(Math.random()*10);
- 
-            // sends output to the socket
-            out = new DataOutputStream(socket.getOutputStream());
-            out.writeUTF(address + " " + Integer.toString(stake));
-            out.writeUTF("Over");
+
+            // establish a connection
+            try
+            {
+                socket = new Socket(address, port);
+                System.out.println("Client " + address + " connected");
+
+                connected = true;
+    
+                // takes input from terminal
+                // input  = new DataInputStream(System.in);
+
+                // FIXME: Stake range to be changed
+                int stake = (int)(Math.random()*10);
+    
+                // sends output to the socket
+                out = new DataOutputStream(socket.getOutputStream());
+                out.writeUTF(address + " " + Integer.toString(stake));
+                out.writeUTF("Over");
+
+            }
+            catch(UnknownHostException u)
+            {
+                System.out.println("client " + address + " connecting..");
+                // System.out.println(u);
+            }
+            catch(IOException i)
+            {
+                System.out.println("client " + address + " connecting..");
+                // System.out.println(i);
+            }
 
         }
-        catch(UnknownHostException u)
-        {
-            System.out.println(u);
-        }
-        catch(IOException i)
-        {
-            System.out.println(i);
-        }
+        
 
     }
 }

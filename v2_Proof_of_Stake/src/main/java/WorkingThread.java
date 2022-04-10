@@ -17,6 +17,7 @@ public class WorkingThread extends Thread {
     @Override
     public void run() {
 
+        System.out.println("Working thread started");
         try {
             // takes input from the client socket
             in = new DataInputStream(
@@ -32,6 +33,7 @@ public class WorkingThread extends Thread {
             try
             {
                 line = in.readUTF();
+                System.out.println("Get input from client: " + line);
 
                 if(line.equals("Over")){
                     break;

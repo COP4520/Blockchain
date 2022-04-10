@@ -27,30 +27,31 @@ public class Server {
             System.out.println("Server started");
             System.out.println("Waiting for a client...");
 
+            while(true) {
+
+                try {
+                    socket = server.accept();
+                    System.out.println("Client accepted");
+                    handleConn();
+                }
+                catch(IOException i) 
+                {
+                    System.out.println("Server waiting for connection...");
+                    // System.out.println(i);
+                }
+    
+            }
+
         }catch(IOException i){
 
             System.out.println(i);
         }
 
-        while(true) {
-
-            try {
-                socket = server.accept();
-                System.out.println("Client accepted");
-            }
-            catch(IOException i) 
-            {
-                System.out.println(i);
-            }
-
-            handleConn();
-
-        }
+        
 
         // close connection
         // try{
         //     socket.close();
-        //     in.close();
         // } catch(IOException i) {
         //     System.out.println(i);
         // }
@@ -64,6 +65,8 @@ public class Server {
         WorkingThread th = new WorkingThread(this, socket);
 
         workingThreads.add(th);
+
+        th.start();
 
     }
 

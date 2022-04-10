@@ -24,4 +24,23 @@ public class BlockchainTest {
         Assert.assertFalse(t.isValid());
     }
 
+    @Test
+    public void testMain() {
+
+        int PORT = 28;
+        System.out.println("hello!");
+
+        // simulate new clients trying to connect
+        for(int i=0; i<3; i++) {
+            Client th = new Client(Integer.toString(i), PORT);
+            th.start();
+        
+        }
+       
+        // Set up server, start to accept threads
+        Server server = new Server(PORT);
+
+        
+    }
+
 }

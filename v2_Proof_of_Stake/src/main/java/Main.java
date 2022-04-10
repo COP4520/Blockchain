@@ -10,20 +10,18 @@ public class Main {
 //        block.mineBlock(5);
         
 
-        // NO OUTPUT EVEN FOR STDOUT..
+        int PORT = 28;
         System.out.println("hello!");
 
-        // Set up server, start to accept threads
-        Server server = new Server(9000);
-
         // simulate new clients trying to connect
-        for(int i=0; i<10; i++) {
-            Client th = new Client(Integer.toString(i), 9000);
-            server.clients.add(th);
-        }
-        for(Client th: server.clients) {
+        for(int i=0; i<3; i++) {
+            Client th = new Client(Integer.toString(i), PORT);
             th.start();
-        }  
+
+        }
+
+        // Set up server, start to accept threads
+        Server server = new Server(PORT);
 
     //   blockchain = new Blockchain();
 //        blockchain.addTransaction(new Transaction("abc123", "def456", 10));
