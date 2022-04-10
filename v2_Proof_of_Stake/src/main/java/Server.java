@@ -8,7 +8,7 @@ public class Server {
     //initialize socket and input stream
     public Socket          socket   = null;
     public ServerSocket    server   = null;
-    
+
 
     public List<Client> clients;
     public List<WorkingThread> workingThreads;

@@ -27,7 +27,7 @@ public class BlockchainTest {
     @Test
     public void testMain() {
 
-        int PORT = 28;
+        int PORT = 31;
         System.out.println("hello!");
 
         // simulate new clients trying to connect

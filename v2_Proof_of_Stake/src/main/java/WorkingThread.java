@@ -8,6 +8,7 @@ public class WorkingThread extends Thread {
     public Server server;
     public Socket socket;
     public DataInputStream in = null;
+    public DataOutputStream out = null;
 
     WorkingThread(Server server, Socket socket) {
         this.server = server;
@@ -17,13 +18,13 @@ public class WorkingThread extends Thread {
     @Override
     public void run() {
 
-        System.out.println("Working thread started");
+//        System.out.println("Working thread started");
         try {
             // takes input from the client socket
             in = new DataInputStream(
                 new BufferedInputStream(socket.getInputStream()));
 
-            
+            out  = new DataOutputStream(socket.getOutputStream());
         } catch (IOException e) {
             System.out.println(e);
         }
@@ -33,7 +34,6 @@ public class WorkingThread extends Thread {
             try
             {
                 line = in.readUTF();
-                System.out.println("Get input from client: " + line);
 
                 if(line.equals("Over")){
                     break;
@@ -46,12 +46,16 @@ public class WorkingThread extends Thread {
                 }
                 String address = data[0];
                 int stake = Integer.parseInt(data[1]);
-                
-                // TODO: create a new block, etc.
-                server.blockchain.addValidator(address, stake);
 
-                // TODO: Add new blockchain to BlockingQueue
-                // bcServer.add(newBlockchain)
+                System.out.println("Working thread " + Thread.currentThread().getId() + " with stake = " + stake);
+
+                if(stake<10) {
+                    out.writeUTF("Request ignored: Stake must be at least 10");
+                }
+                else {
+                    out.writeUTF("Stake " + stake + " added to validator list");
+                    server.blockchain.addValidator(address, stake);
+                }
                 
             }
             catch(IOException i)

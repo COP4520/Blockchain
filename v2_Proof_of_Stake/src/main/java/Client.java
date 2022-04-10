@@ -39,20 +39,33 @@ public class Client extends Thread{
             try
             {
                 socket = new Socket(address, port);
-                System.out.println("Client " + address + " connected");
+                System.out.println("Client " + " connected");
 
                 connected = true;
     
-                // takes input from terminal
-                // input  = new DataInputStream(System.in);
-
-                // FIXME: Stake range to be changed
-                int stake = (int)(Math.random()*10);
-    
                 // sends output to the socket
                 out = new DataOutputStream(socket.getOutputStream());
-                out.writeUTF(address + " " + Integer.toString(stake));
-                out.writeUTF("Over");
+                input  = new DataInputStream(socket.getInputStream());
+
+                while(true) {
+                    // Generate random stake ranging from 0 to 29
+                    int stake = (int)(Math.random()*30);
+
+                    out.writeUTF(address + " " + Integer.toString(stake));
+                    try {
+                        Thread.sleep(2000);
+                    }
+                    catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    String line = input.readUTF();
+                    if(line.length()>0) {
+                        System.out.println(line);
+                    }
+                }
+
+//                out.writeUTF("Over");
 
             }
             catch(UnknownHostException u)

@@ -10,18 +10,26 @@ public class Main {
 //        block.mineBlock(5);
         
 
-        int PORT = 28;
-        System.out.println("hello!");
+        int PORT = 33;
 
-        // simulate new clients trying to connect
-        for(int i=0; i<3; i++) {
-            Client th = new Client(Integer.toString(i), PORT);
+        if(args.length == 0 || !args[0].equals("--server")) {
+            System.out.println("client!");
+
+            // simulate new clients trying to connect
+            Client th = new Client("localhost", PORT);
             th.start();
 
-        }
 
-        // Set up server, start to accept threads
-        Server server = new Server(PORT);
+        }
+        else {
+            // Set up server, start to accept clients
+            System.out.println("server!");
+
+            Server server = new Server(PORT);
+        }
+        
+
+        
 
     //   blockchain = new Blockchain();
 //        blockchain.addTransaction(new Transaction("abc123", "def456", 10));
