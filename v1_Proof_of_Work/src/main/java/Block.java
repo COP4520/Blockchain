@@ -17,10 +17,10 @@ public class Block {
     }
 
     public Block(ArrayList<Transaction> transactions, Timestamp timestamp, String previousHash){
-        this.transactions = transactions;
+        this.transactions = new ArrayList<>(transactions);
         this.timestamp = timestamp;
         this.previousHash = previousHash;
-        nonce = 0;
+        this.nonce = 0;
         this.hash = calculateHash();
     }
 

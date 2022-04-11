@@ -11,7 +11,7 @@ public class Blockchain {
         this.chain = new ArrayList<>();
         this.chain.add(this.createGenesisBlock());
         this.pendingTransactions = new ArrayList<>();
-        this.difficulty = 3;
+        this.difficulty = 1;
         this.miningReward = 100;
     }
 
@@ -36,15 +36,20 @@ public class Blockchain {
     }
 
     public void addTransaction(Transaction transaction) {
-        this.pendingTransactions.add(transaction);
-        System.out.println("Added transaction to pending transactions.");
+        if(transaction.isValid()){
+            this.pendingTransactions.add(transaction);
+            System.out.println("Added transaction to pending transactions.");
+        }
+        else{
+            System.out.println("Failed to add transaction (invalid).");
+        }
     }
 
     public boolean isChainValid() {
         for(int i = 1; i < chain.size(); i++) {
             Block currentBlock = this.chain.get(i);
             Block previousBlock = this.chain.get(i-1);
-
+            String cHash = currentBlock.calculateHash();
             if(!currentBlock.hash.equals(currentBlock.calculateHash()))
                 return false;
             if(!previousBlock.hash.equals(previousBlock.calculateHash()))
