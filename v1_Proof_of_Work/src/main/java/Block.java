@@ -32,8 +32,9 @@ public class Block {
     }
 
     public void mineBlock(int difficulty){
+        String desired = StringUtils.leftPad("", difficulty, "0");
         long start = System.nanoTime();
-        while (!this.hash.substring(0, difficulty).equals(StringUtils.leftPad("", difficulty, "0"))) {
+        while (!this.hash.substring(0, difficulty).equals(desired)) {
             this.nonce++;
             this.hash = this.calculateHash();
         }
