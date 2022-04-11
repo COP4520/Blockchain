@@ -36,8 +36,6 @@ public class Blockchain {
     }
 
     public void addTransaction(Transaction transaction) {
-        // TODO ensure transaction is valid and the balance of wallet before accepting transaction
-
         this.pendingTransactions.add(transaction);
         System.out.println("Added transaction to pending transactions.");
     }
