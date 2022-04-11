@@ -11,7 +11,7 @@ public class Blockchain {
         this.chain = new ArrayList<>();
         this.chain.add(this.createGenesisBlock());
         this.pendingTransactions = new ArrayList<>();
-        this.difficulty = 1;
+        this.difficulty = 3;
         this.miningReward = 100;
     }
 
@@ -49,7 +49,6 @@ public class Blockchain {
         for(int i = 1; i < chain.size(); i++) {
             Block currentBlock = this.chain.get(i);
             Block previousBlock = this.chain.get(i-1);
-            String cHash = currentBlock.calculateHash();
             if(!currentBlock.hash.equals(currentBlock.calculateHash()))
                 return false;
             if(!previousBlock.hash.equals(previousBlock.calculateHash()))
