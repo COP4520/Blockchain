@@ -131,30 +131,6 @@ public class Blockchain {
                 .toString();
     }
 
-  /*  public Block findBlock(ArrayList<Transaction> info, String prevHash, int diff) {
-        int pastTime = 0;
-
-        while (true) {
-            long timestamp = new java.util.Date().getTime();
-            if(pastTime == timestamp) {
-                String hash = calculateHash(info, prevHash, new Timestamp(timestamp), diff);
-                // TODO: add validation for stake
-                return new Block(info, timestamp, )
-            }
-        }
-    } */
-
-    public void minePendingTransactions(String rewardAddress) {
-        Transaction reward = new Transaction(null, rewardAddress, this.miningReward);
-        this.pendingTransactions.add(reward);
-        // TODO: UPDATE FOR POS
-        //Block block = new Block(this.pendingTransactions, new Timestamp(System.currentTimeMillis()), this.getLatestBlock().hash);
-      //  block.mineBlock(this.difficulty);
-
-       // this.chain.add(block);
-        this.pendingTransactions.clear();
-    }
-
     public void addTransaction(Transaction transaction) {
         // TODO ensure transaction is valid and the balance of wallet before accepting transaction
 //      if(transaction.verifySignature() && transaction.isValid(transaction.amount)) {

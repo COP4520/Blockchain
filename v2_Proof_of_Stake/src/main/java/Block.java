@@ -11,28 +11,8 @@ public class Block {
     Timestamp timestamp;
     String previousHash;
     String hash;
-
     String validatorAddress;
-    int bpm;
     int nonce;
-
-    /*//how a winning validator is chosen
-    // WORK IN PROGRESS
-    public static class pickWinner implements Runnable {
-
-        @Override
-        public synchronized void run() {
-            public void lock() {
-                Thread current = Thread.currentThread();
-                while (!cas.compareAndSet(null, current)) {
-                }
-            }
-            public void unlock() {
-                Thread current = Thread.currentThread();
-                cas.compareAndSet(current, null);
-            }
-        }
-    }*/
 
     // checking validity of the block
     public Boolean isBlockValid() {
@@ -61,19 +41,6 @@ public class Block {
         return Hashing.sha256()
                 .hashString(this.previousHash + this.timestamp + json, StandardCharsets.UTF_8)
                 .toString();
-    }
-
-    public void mineBlock(int difficulty) {
-        long start = System.nanoTime();
-
-        while (!this.hash.substring(0, difficulty).equals(StringUtils.leftPad("", difficulty, "0"))) {
-            this.nonce++;
-            this.hash = this.calculateHash();
-        }
-
-        long end = System.nanoTime();
-        double ms = ((double)end-start) / 1000000;
-        System.out.printf("Block Mined in %.2fms with mining hash %s%n", ms, this.hash);
     }
 
     public String getPrevHash() {

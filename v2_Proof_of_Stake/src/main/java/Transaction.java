@@ -1,12 +1,8 @@
 import com.google.common.hash.Hashing;
-import org.json.JSONArray;
-
 import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
-import java.security.*;
 
 public class Transaction {
-    public String transactionID;
     String fromAddress;
     String toAddress;
     int amount;
@@ -18,7 +14,6 @@ public class Transaction {
         this.toAddress = toAddress;
         this.amount = amount;
         this.timestamp = new Timestamp(System.currentTimeMillis());
-        //generateSignature();
     }
 
     public String calculateHash(){
@@ -40,24 +35,4 @@ public class Transaction {
 
         return SignatureUtil.verify(this.fromAddress, this.calculateHash(), this.signature);
     }
-
-/* //TODO: these need to be fixed. Look into Private and PublicKey
-    public boolean isValid(int balance) {
-        return balance == amount && verifySignature();
-    }*/
-
-/*
-    public void generateSignature() {
-        String data = SignatureUtil.getStringFromKey(fromAddress) + SignatureUtil.getStringFromKey(toAddress) + Float.toString(amount)	;
-        signature = SignatureUtil.applyECDSASig(toAddress, data);
-    }
-
-    // to verify the data we signed hasnt been tampered with
-    public boolean verifySignature() {
-        String data = SignatureUtil.getStringFromKey(fromAddress) + SignatureUtil.getStringFromKey(toAddress) + Float.toString(amount)	;
-
-        return SignatureUtil.verifyECDSASig(fromAddress, data, signature);
-    } */
-
-    // TODO: finished adding transaction signing with public/private keys, just needs to be reviewed
 }
