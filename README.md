@@ -34,4 +34,4 @@ Server:
 `java -jar target\v3_Sharding-1.0-SNAPSHOT-jar-with-dependencies.jar --server`
 
 Client:
-`java -jar target\v2_Sharding-1.0-SNAPSHOT-jar-with-dependencies.jar`
+`java -jar target\v3_Sharding-1.0-SNAPSHOT-jar-with-dependencies.jar`
