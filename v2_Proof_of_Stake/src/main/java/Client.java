@@ -46,12 +46,13 @@ public class Client extends Thread{
                 // sends output to the socket
                 out = new DataOutputStream(socket.getOutputStream());
                 input  = new DataInputStream(socket.getInputStream());
+                Wallet wallet = new Wallet(1000);
 
                 while(true) {
                     // Generate random stake ranging from 0 to 29
                     int stake = (int)(Math.random()*30);
 
-                    out.writeUTF(address + " " + Integer.toString(stake));
+                    out.writeUTF(wallet.getPublicKey() + " " + Integer.toString(stake));
                     try {
                         Thread.sleep(2000);
                     }
