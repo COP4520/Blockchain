@@ -1,20 +1,22 @@
 public class StakingThread implements Runnable{
 
-    Blockchain blockhain;
+    Server server;
 
-    public StakingThread(Blockchain blockchain){
-        this.blockhain = blockchain;
+    public StakingThread(Server server){
+        this.server = server;
     }
 
     @Override
     public void run() {
-        while(blockhain != null){
+        while(server.blockchain != null){
+
             try {
                 Thread.sleep(8000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            blockhain.proofOfStake();
+            if(server.blockchain.validators.size() > 0)
+                server.blockchain.proofOfStake();
         }
     }
 }

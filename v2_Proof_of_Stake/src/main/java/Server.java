@@ -13,6 +13,7 @@ public class Server {
     public List<Client> clients;
     public List<WorkingThread> workingThreads;
     public Blockchain blockchain;
+    public int clientCount = 0;
  
     // constructor with port
     public Server(int port)
@@ -27,7 +28,7 @@ public class Server {
             System.out.println("Server started");
             System.out.println("Waiting for a client...");
 
-            StakingThread st = new StakingThread(this.blockchain);
+            StakingThread st = new StakingThread(this);
             Thread t = new Thread(st);
             t.start();
 
@@ -35,6 +36,7 @@ public class Server {
 
                 try {
                     socket = server.accept();
+                    clientCount++;
                     System.out.println("Client accepted");
                     handleConn();
                 }
