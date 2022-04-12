@@ -21,7 +21,7 @@ public class Block {
 
     public Block(int index, ArrayList<Transaction> transactions, Timestamp timestamp){
         this.index = index;
-        this.transactions = transactions;
+        this.transactions = new ArrayList<>(transactions);
         this.timestamp = timestamp;
         this.nonce = 0;
         this.hash = calculateHash();
