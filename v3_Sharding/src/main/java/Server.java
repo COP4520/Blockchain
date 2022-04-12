@@ -27,6 +27,10 @@ public class Server {
             System.out.println("Server started");
             System.out.println("Waiting for a client...");
 
+            StakingThread st = new StakingThread(this.blockchain);
+            Thread t = new Thread(st);
+            t.start();
+
             while(true) {
 
                 try {

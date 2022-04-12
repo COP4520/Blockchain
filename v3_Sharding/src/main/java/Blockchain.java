@@ -14,7 +14,6 @@ public class Blockchain {
     private Random rand = new Random();
     ArrayList<Block> chain;
     ArrayList<Transaction> pendingTransactions;
-    ArrayList<Block> tempBlocks;
     public Queue<Staker> validators;
     int difficulty;
     int miningReward;
@@ -23,7 +22,6 @@ public class Blockchain {
         this.chain = new ArrayList<>();
         this.chain.add(this.createGenesisBlock());
         this.pendingTransactions = new ArrayList<>();
-        this.tempBlocks = new ArrayList<>();
         this.validators = new ConcurrentLinkedQueue<>();
         this.difficulty = 3;
         this.miningReward = 100;
@@ -63,13 +61,13 @@ public class Blockchain {
     }
 
     public void proofOfStake(){
-        for(Block b : tempBlocks) {
-            pickWinner(b);
-        }
-        tempBlocks.clear();
+        Staker s = pickWinner();
+        this.validators.clear();
+        Block b = generateNextBlock(s);
+        System.out.println("Generated Block " + b.hash + " validated by " + b.getValidatorAddress());
     }
 
-    private Staker pickWinner(Block block){
+    private Staker pickWinner(){
         ArrayList<Staker> lotteryPool = new ArrayList<>();
         int totalStake = 0;
 
