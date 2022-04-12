@@ -23,7 +23,7 @@ public class Main {
             Server server = new Server(PORT);
         }
 
-
+        new BeaconChain();
     //   blockchain = new Blockchain();
 //        blockchain.addTransaction(new Transaction("abc123", "def456", 10));
 //        blockchain.addTransaction(new Transaction("abc123", "def456", 20));
