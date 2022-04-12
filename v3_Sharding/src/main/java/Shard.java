@@ -22,7 +22,7 @@ public class Shard extends Thread {
     public void run(){
         shardChain.createGenesisBlock();
         while (y<blockchains.size()){
-            shardChain.addAndValidateBlock(blockchains.get(y));
+            shardChain.isChainValid();
             y++;
         }
         if (y==blockchains.size()) System.out.println("Validation done(:");

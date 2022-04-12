@@ -13,9 +13,10 @@ public class BeaconChain {
     public BeaconChain(){
         this.shards = new ArrayList<>();
 
-        for (counter=0; counter<9; counter++){
+        for (int t=0; t<9; t++){
             Block current = blockchain.createGenesisBlock();
             separateInShard(current);
+            counter++;
         }
 
         one.start();
