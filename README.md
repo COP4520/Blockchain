@@ -1,6 +1,6 @@
 # Scaling Blockchain With Parallel Processing
 
-### Note: This README is a work in progress.
+## More detailed information about this project can be found in the included report files.
 
 ## Building The Project
 This Java project is built and managed by [Maven](https://maven.apache.org/what-is-maven.html).
@@ -19,17 +19,17 @@ The project must be built before it can be deployed.
 
 To deploy the program, use the following commands for each version:
 
-### v1
+### v1 - Proof of Work
 `java -jar target\v1_Proof_of_Work-1.0-SNAPSHOT-jar-with-dependencies.jar`
 
-### v2
+### v2 - Proof of Stake with TCP Server
 Server:
 `java -jar target\v2_Proof_of_Stake-1.0-SNAPSHOT-jar-with-dependencies.jar --server`
 
 Client:
 `java -jar target\v2_Proof_of_Stake-1.0-SNAPSHOT-jar-with-dependencies.jar`
 
-### v3
+### v3 - Sharding
 Server:
 `java -jar target\v3_Sharding-1.0-SNAPSHOT-jar-with-dependencies.jar --server`
 
