@@ -35,3 +35,5 @@ Server:
 
 Client:
 `java -jar target\v3_Sharding-1.0-SNAPSHOT-jar-with-dependencies.jar`
+
+**Note:** For v2 and v3, you can launch multiple clients to simulate multiple stakers.
